@@ -20,9 +20,9 @@ def load_data(path):
     for in_file in in_files:
         print(os.path.basename(in_file))
         #pd_temp = pd.read_csv(in_file, sep='\t', parse_dates=['date'], infer_datetime_format=True).assign(New=os.path.basename(in_file))
-        pd_temp = pd.read_csv(in_file, sep='\t').assign(file=os.path.basename(in_file))
+        pd_temp = pd.read_csv(in_file, sep='\t', parse_dates=['date'], infer_datetime_format=True, index_col=['date']).assign(file=os.path.basename(in_file))
         pd_list.append(pd_temp)
-    frame = pd.concat(pd_list, ignore_index=True)
+    frame = pd.concat(pd_list)#, ignore_index=True)
     return frame
 
 def regex_filter(df, pat, col="content"):
@@ -60,5 +60,5 @@ def date_sort(df):
     return res
 
 if __name__ == '__main__':
-    fd = load_data('./csv')
+    fd = load_data('../csv-2')
     fd.to_pickle('pickle_pandas_fi.bz', 'bz2')
